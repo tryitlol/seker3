@@ -1173,6 +1173,21 @@ def save_clean_or_notclean(account, password, details, codm_info, result_folder=
         garena_nickname = details.get('nickname', '')
 
         fb_connected = details.get('security', {}).get('facebook_connected', False)
+
+        fb_account = details.get('security', {}).get('facebook_account', {})
+
+        if isinstance(fb_account, dict):
+            fb_username = fb_account.get('fb_username', 'N/A')
+            fb_uid = fb_account.get('fb_uid', 'N/A')
+
+            if fb_uid != 'N/A':
+                fb_account = f"https://facebook.com/{fb_uid}"
+            else:
+                fb_account = fb_username
+
+        if not fb_account or str(fb_account).strip() == "":
+            fb_account = "N/A"
+
         fb_status = "CONNECTED" if fb_connected else "NOT CONNECTED"
 
         bindings = ", ".join(details.get('binds', []))
@@ -1216,7 +1231,8 @@ def save_clean_or_notclean(account, password, details, codm_info, result_folder=
           ---
           Last Login: {details.get('last_login', 'Unknown')}
           From: Garena Mobile ({details.get('last_login_where', 'N/A')})
-          Facebook Status {fb_status}
+          Facebook Status: {fb_status}
+          Facebook Link: {fb_account}
           Bindings: {bindings}
           --
 """
@@ -1276,6 +1292,21 @@ def save_account_details_full(account, details, codm_info=None, password=None, r
         garena_nickname = details.get('nickname', '')
 
         fb_connected = details.get('security', {}).get('facebook_connected', False)
+
+        fb_account = details.get('security', {}).get('facebook_account', {})
+
+        if isinstance(fb_account, dict):
+            fb_username = fb_account.get('fb_username', 'N/A')
+            fb_uid = fb_account.get('fb_uid', 'N/A')
+
+            if fb_uid != 'N/A':
+                fb_account = f"https://facebook.com/{fb_uid}"
+            else:
+                fb_account = fb_username
+
+        if not fb_account or str(fb_account).strip() == "":
+            fb_account = "N/A"
+
         fb_status = "CONNECTED" if fb_connected else "NOT CONNECTED"
 
         bindings = ", ".join(details.get('binds', []))
@@ -1314,7 +1345,8 @@ def save_account_details_full(account, details, codm_info=None, password=None, r
           ---
           Last Login: {details.get('last_login', 'Unknown')}
           From: Garena Mobile ({details.get('last_login_where', 'N/A')})
-          Facebook Status {fb_status}
+          Facebook Status: {fb_status}
+          Facebook Link: {fb_account}
           Bindings: {bindings}
           --
 """
