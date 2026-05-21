@@ -1427,9 +1427,12 @@ def parse_account_details(data):
     id_card = account_info['personal']['id_card']
     if id_card != 'N/A' and id_card and id_card.strip():
         account_info['binds'].append('ID Card')
-    if user_info.get('email_v', 0) == 1 or len(account_info['binds']) > 0:
+    # Facebook does NOT count as dirty bind
+    dirty_binds = [b for b in account_info['binds'] if b not in ['Facebook']]
+
+    if user_info.get('email_v', 0) == 1 or len(dirty_binds) > 0:
         account_info['is_clean'] = False
-        account_info['bind_status'] = f"Bound ({', '.join(account_info['binds']) or 'Email Verified'})"
+        account_info['bind_status'] = f"Bound ({', '.join(dirty_binds) or 'Email Verified'})"
     else:
         account_info['is_clean'] = True
         account_info['bind_status'] = "Clean"
