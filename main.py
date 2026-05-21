@@ -4230,7 +4230,7 @@ async def cmd_stats(update,context):
 async def cmd_broadcast(update,context):
     if not context.args: await update.message.reply_text("Usage: <code>/broadcast Your message</code>",parse_mode=ParseMode.HTML); return
     msg=" ".join(context.args); users=load_users()
-    bt=(f"📢 <b>Announcement</b>\n━━━━━━━━━━━━━━━━━━━━\n{msg}")
+    bt=(f"{msg}")
     ok=fail=0
     sm=await update.message.reply_text(f"📢 Broadcasting to <code>{len(users)}</code> users…",parse_mode=ParseMode.HTML)
     for uid2 in users:
