@@ -1,0 +1,36 @@
+{
+  "ywrlds-4525A646-D24B": {
+    "max_users": 2,
+    "used_by": [
+      "1015875254",
+      "6012927485"
+    ],
+    "duration_type": "lifetime",
+    "duration_val": 0,
+    "expires_at": null,
+    "created_at": "2026-05-22T17:59:54.346571",
+    "created_by": 7675369659
+  },
+  "ywrlds-86F08BA0-552B": {
+    "max_users": 1,
+    "used_by": [
+      "8315586178"
+    ],
+    "duration_type": "hours",
+    "duration_val": 1,
+    "expires_at": "2026-05-22T19:54:16.700339+00:00",
+    "created_at": "2026-05-22T18:54:16.700426",
+    "created_by": 7675369659
+  },
+  "ywrlds-6D016E34-DC4B": {
+    "max_users": 1,
+    "used_by": [
+      "8827618166"
+    ],
+    "duration_type": "hours",
+    "duration_val": 1,
+    "expires_at": "2026-05-22T19:56:22.460863+00:00",
+    "created_at": "2026-05-22T18:56:22.460985",
+    "created_by": 7675369659
+  }
+}
